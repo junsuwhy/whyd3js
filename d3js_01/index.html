@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>游向綠島計劃</title>
+<link rel="stylesheet" href="css\style.css" type="text/css" media="screen" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="d3.v3\d3.v3.js"></script>
+
+      
+</style>
+</head>
+<body>
+<div id="container">
+  <svg width="50" height="50">
+    <circle cx="25" cy="25" r="22"
+     fill="blue" stroke="gray" stroke-width="2"/>
+</svg>
+<script type="text/javascript">
+var dataset = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19,
+                14, 11, 22, 29, 11, 13, 12, 17, 18, 10,
+                24, 18, 25, 9, 3 ];
+            d3.select("body")
+            .selectAll('p')
+            .data(dataset)
+            .enter()
+            .append('div')
+            .attr("class","bar")
+            .style('height',function(d){
+              return 5*d+'px';
+            });
+
+
+            d3.select("body").
+            selectAll("p")
+            .data(dataset)
+            .enter()
+            .append("p")
+            .text(function(d) { return d; })
+            .style("color", function(d) {
+              if (d > 15) {   //Threshold of 15
+                  return "red";
+              } else {
+                  return "black";
+              }
+            });
+
+            console.log(d3.selectAll("p"));
+             </script>
+             <p>New paragraph!</p>
+</div>
+<div class="bar"></div>
+<div>
+<svg width="500" height="250" stroke="orange"
+ fill=rgba(0,0,0,0.5) stroke-width="3">
+<rect x="0" y="50" width="100" height="50" />
+<circle cx="100" cy="100" r="50"/>
+<ellipse cx="100" cy="100" rx="50" ry="25"/>
+<line x1="100" x2="100" y1="200" y2="400" stroke="black"/>
+<text x="250" y="25">Easy-peasy</text>
+
+</svg>
+</div>
+
+</body>
+</html>

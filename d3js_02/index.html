@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>游向綠島計劃</title>
+<link rel="stylesheet" href="css\style.css" type="text/css" media="screen" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="d3\d3.v3.js"></script>
+<script type='text/javascript'>
+var w=800,h=600;
+var beginx=50,beginy=50,rectheight=100,rectwidth=10,margin=2;
+</script>
+      
+</style>
+</head>
+<body>
+<div id="container">
+  <svg>
+  </svg>
+</div>
+<script type="text/javascript">
+
+var svg=d3.select('body')
+          .selectAll('div')
+          .append('svg')
+          .attr('width',w)
+          .attr('hdight',h)
+          .attr('class','new');
+
+var dataset=[17,20,8,19,25,35,77,25,12,15,13,63,46,52];
+dataset_max=Math.max.apply(null,dataset);
+console.log(dataset_max);
+
+console.log(svg.select('svg',{'class':'new'}));
+
+/*
+var circles = svg.selectAll('svg')
+                 .data(dataset)
+                 .enter()
+                 .append('circle') ;
+
+circles.attr('cx',function(d,i){
+  return (i*50)+25;
+})
+.attr('cy',h/2)
+.attr('r',function(d){
+  return d;
+})
+.attr('opacity',function(d){
+  return (0.2)*d/5;
+});
+*/
+
+var rect=svg.selectAll('svg')
+                 .data(dataset)
+                 .enter()
+                 .append('rect');
+
+rect.attr('x',function(d,i){
+  return beginx+i*(rectwidth+margin);
+})
+.attr("y",function(d,i){
+  return beginy+rectheight-(rectheight*d/dataset_max);
+})
+.attr('width',function(d,i){
+  return rectwidth;
+})
+.attr('height',function(d,i){
+  return rectheight*d/dataset_max;
+})
+
+
+
+
+</script>
+</body>
+</html>

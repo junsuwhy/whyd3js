@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>游向綠島計劃</title>
+<link rel="stylesheet" href="css\style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css\bootstrap.css" type="text/css" media="screen" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="d3\d3.v3.js"></script>
+<script src="js\bootstrap.js"></script>
+<script type='text/javascript'>
+var w=800,h=600;
+var beginx=50,beginy=50,rectheight=100,rectwidth=10,margin=2;
+
+var bia=50;
+
+var dataset=[];
+for(var i=0;i<5;i++){
+  dataset.push({
+    'x':i*bia,
+    'y':100,
+    'vx':10,
+    'vy':20,
+    'r':5
+  })
+}
+
+</script>
+      
+</style>
+</head>
+<body>
+<div id="container">
+
+<button id='pressme' class='btn btn-primary dropdown-toggle'>按我</button>
+</div>
+<script type="text/javascript">
+
+var svg=d3.select('body')
+          .selectAll('div')
+          .append('svg')
+          .attr('width',w)
+          .attr('hdight',h);
+
+
+var flag=false;
+
+
+
+var circles = svg.selectAll('svg')
+                 .data(dataset)
+                 .enter()
+                 .append('circle')
+                 .attr('cx',function(d){
+                    return d.x;
+                 })
+                 .attr('cy',function(d){
+                    return d.y;
+                 })
+                 .attr('r',20);
+
+console.log(circles)
+
+setInterval(function(){
+  circles.attr('cx',function(d){
+    d.x+=d.vx;
+    return d.x;
+  });
+},1000);
+
+
+
+</script>
+
+</body>
+</html>

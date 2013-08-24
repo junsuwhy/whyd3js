@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>消費者物價上升率(％)</title>
+<link rel="stylesheet" href="css\style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css\bootstrap.css" type="text/css" media="screen" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="d3\d3.v3.js"></script>
+<script src="js\bootstrap.js"></script>
+<script type='text/javascript'>
+var w=800,h=600;
+var beginx=50,beginy=50,rectheight=100,rectwidth=10,margin=2;
+</script>
+      
+</style>
+</head>
+<body>
+<div id="container">
+
+<p>消費者物價上升率</p><button id='pressme' class='btn btn-primary dropdown-toggle'>按我</button>
+
+<div id='svg_container'>
+</div>
+
+</div>
+<script type="text/javascript">
+
+var svg=d3.select('body')
+          .selectAll('div')
+          .selectAll('div #svg_container')
+          .append('svg')
+          .attr('width',w)
+          .attr('height',h)
+          .attr('class','new')
+          .attr('fill','white');
+
+
+var flag=false;
+
+var years=[91  
+,92  
+,93  
+,94  
+,95  
+,96  
+,97  
+,98  
+,99  
+,100
+,101
+,102]
+
+var dataset=[-0.20
+,-0.28
+,1.61
+,2.30
+,0.60
+,1.80
+,3.52
+,-0.86
+,0.96
+,1.42
+,1.93
+,1.23];
+
+var dataset_abs=[0.20
+,0.28
+,1.61
+,2.30
+,0.60
+,1.80
+,3.52
+,0.86
+,0.96
+,1.42
+,1.93
+,1.23
+]
+
+dataset_max=Math.max.apply(null,dataset_abs);
+console.log(dataset_max);
+
+console.log(svg.select('svg',{'class':'new'}));
+
+
+var circles = svg.selectAll('svg')
+                 .data(dataset)
+                 .enter()
+                 .append('circle')
+                 .attr('fill','white');
+
+var text = svg.selectAll('svg')
+            .data(years)
+            .enter()
+            .append('text')
+            .text(function(d){return String(d)+'年'})
+            .attr('x',function(d,i){
+              return (i*50)+15;
+            })
+            .attr('y',function(d,i){
+              return beginy+rectheight-2;
+            })
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "10px")
+            .attr("fill", "black")
+
+var line = svg
+           .append('line')
+           .attr('x1',0)
+           .attr('x2',w*0.8)
+           .attr('y1',0)
+           .attr('y2',0)
+           .attr('stroke','black')
+           .attr('stroke-width','3')
+           .attr('opacity','0');
+
+tran_to_radius();
+
+function tran_to_radius(){
+  circles
+  .transition()
+  .duration(1000)
+  .attr('cx',function(d,i){
+    return (i*50)+25;
+  })
+  .attr('cy',h/4)
+  .attr('r',function(d){
+    return Math.abs(50*d/dataset_max);
+  })
+  .attr('opacity',function(d){
+    return 0.4+Math.abs(d/dataset_max*0.6);
+  })
+  .attr('fill',function(d){
+    if(d>=0){
+      return "hsl(200,100%,50%)";
+    }else{
+      return "hsl(0,100%,50%)";
+    }
+  });
+
+
+  line.transition()
+           .attr('y1',0)
+           .attr('y2',0)
+           .attr('opacity','0');
+}
+
+function tran_to_position(){
+  circles.transition()
+         .duration(1000)
+         .attr('r',7)
+         .attr('opacity',1)
+         .attr('cy',function(d){
+           return beginy+rectheight-rectheight*d/dataset_max;
+         })
+         .attr('fill',function(d){
+          if(d>=0){
+            return "hsl(200,"+(d/dataset_max*80)+"%,50%)";
+          }else{
+            return "hsl(0,"+(-d/dataset_max*80)+"%,50%)";
+          }
+        });
+
+  line.transition()
+           .attr('y1',beginy+rectheight)
+           .attr('y2',beginy+rectheight)
+           .attr('opacity','1');
+}
+
+$('#pressme').on('click',function(){
+  if(flag){
+    tran_to_radius();
+  }else{
+    tran_to_position();
+  }
+  flag=!flag;
+})
+/*
+var rect=svg.selectAll('svg')
+                 .data(dataset)
+                 .enter()
+                 .append('rect');
+
+rect.attr('x',function(d,i){
+  return beginx+i*(rectwidth+margin);
+})
+.attr("y",function(d,i){
+  return beginy+rectheight-(rectheight*d/dataset_max);
+})
+.attr('width',function(d,i){
+  return rectwidth;
+})
+.attr('height',function(d,i){
+  return rectheight*d/dataset_max;
+})
+*/
+
+
+
+</script>
+
+</body>
+</html>
